@@ -9,7 +9,7 @@ const questions = [
     {
         type: 'input',
         message: 'Project title',
-        name: 'project'
+        name: 'title'
     },
     {
         type: 'input',
@@ -19,7 +19,7 @@ const questions = [
     {
         type: 'input',
         message: 'Installation instructions?',
-        name: 'install'
+        name: 'installation'
     },
     {
         type: 'input',
@@ -36,11 +36,12 @@ const questions = [
         message: 'Test instructions?',
         name: 'test'
     },
-    // {
-    //     type: '???',
-    //     message: 'license',
-    //     name: 'license'
-    // }
+    {
+        type: 'list',
+        message: 'license',
+        choices: ['CC0v1', 'MIT', 'GNU GPLv3'],
+        name: 'license'
+    },
     {
         type: 'input',
         message: 'Enter your GitHub URL',
@@ -55,7 +56,7 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-        fs.writeFile('README.md', data, (err) =>
+        fs.writeFile(fileName, data, (err) =>
             err ? console.log(err) : console.log("Sucess!")
     );
 }
@@ -64,7 +65,7 @@ function writeToFile(fileName, data) {
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions)
-    .then(({project, description, install, usage, contribute, test, github, email}), (err) =>
+    .then((data) => writeToFile('smplReadme.md', genMKDN(data)), (err) =>
     err ? console.log(err) : console.log('Done')
     )
 };
